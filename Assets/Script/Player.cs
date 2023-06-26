@@ -18,19 +18,29 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();   
     }
 
-    // Update is called once per frame
-    void Update()
+    public void DestroyBlock(Tilemap map, Vector3 pos)
     {
-      
-     
-        Debug.Log(rb.position + " " + inputX);
+        pos.y = Mathf.Floor(pos.y);
+        pos.x = Mathf.Floor(pos.x);
 
-     
+        map.SetTile(new Vector3Int((int)pos.x, (int)pos.y, 0), null);
+
+
+        Debug.Log(rb.position + " " + inputX);
     }
     void FixedUpdate()
     {
         inputX = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         movementSpeed = 4f * inputX;
         rb.MovePosition(rb.position +  movementSpeed * Time.fixedDeltaTime);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "TileMap")
+        {
+            Vector3 pos = collision.gameObject.transform.position;
+            DestroyBlock(collision.gameObject.GetComponent<Tilemap>(), pos);
+        }
     }
 }
