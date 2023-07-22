@@ -42,6 +42,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Core
+    uniqueID: 2698277171
+    locked: 0
+  - name: Collectable
+    uniqueID: 2600214253
+    locked: 0
+  - name: Border
+    uniqueID: 3766264743
+    locked: 0
+  - name: Ground
+    uniqueID: 4052500903
+    locked: 0
   - name: Play
     uniqueID: 3452808647
     locked: 0
