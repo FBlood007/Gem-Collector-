@@ -23,8 +23,8 @@ public class Player : MonoBehaviour
         Vector3 pos;
         if (rb != null)
         {
-            pos.y = Mathf.Floor(rb.position.y);
-            pos.x = Mathf.Floor(rb.position.x);
+            pos.y = (transform.position.y);
+            pos.x = (transform.position.x);
 
             if (inputX == new Vector2(0, -1)) // down
             {
@@ -42,19 +42,20 @@ public class Player : MonoBehaviour
             {
                 pos.x = pos.x + 1;
             }
-            Vector3Int posInt = new Vector3Int((int)pos.x, (int)pos.y, 0);
-            Vector3 cellWorld = map.GetCellCenterWorld(posInt);
-            map.SetTile(posInt, null);
+            Vector3Int posInt = new Vector3Int(Mathf.FloorToInt(pos.x),Mathf.FloorToInt(pos.y), 0);
+            Vector3Int cellWorld = Vector3Int.FloorToInt(map.GetCellCenterWorld(posInt));
+            map.SetTile(cellWorld, null);
 
-            Debug.Log("posx ,posy" + pos.x + " " + pos.y);
-            Debug.Log(rb.position + " " + inputX);
+            /*Debug.Log("posx ,posy" + pos.x + " " + pos.y);
+            Debug.Log("posxInt ,posyInt" + Mathf.FloorToInt(pos.x) + " " + Mathf.FloorToInt(pos.y));
+            Debug.Log("Cell world" + " " + cellWorld);*/
         }
     }
     void FixedUpdate()
     {
         inputX = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         movementSpeed = 4f * inputX;
-       
+
         rb.MovePosition(rb.position + movementSpeed * Time.fixedDeltaTime);
     }
 
