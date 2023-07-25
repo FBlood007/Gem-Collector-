@@ -3908,6 +3908,7 @@ GameObject:
   - component: {fileID: 1861571196}
   - component: {fileID: 1861571197}
   - component: {fileID: 1861571199}
+  - component: {fileID: 1861571200}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -4048,6 +4049,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.45
+--- !u!114 &1861571200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861571192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc9bb7c06f19d0049a94871f73a03287, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1902009842
 GameObject:
   m_ObjectHideFlags: 0
@@ -4059,9 +4072,11 @@ GameObject:
   - component: {fileID: 1902009843}
   - component: {fileID: 1902009846}
   - component: {fileID: 1902009845}
+  - component: {fileID: 1902009847}
+  - component: {fileID: 1902009848}
   m_Layer: 0
   m_Name: Collectable layer
-  m_TagString: TileMap
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4334,3 +4349,31 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &1902009847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1902009842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d7bff3fa74032a4a8d64c62d481d4f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!19719996 &1902009848
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1902009842}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0
