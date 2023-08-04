@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -10,9 +7,8 @@ public class Player : MonoBehaviour
     public Vector2 movementSpeed;
     public Rigidbody2D rb;
     Vector2 inputX;
-    Vector2 movement;
-    Direction direction;
-
+    public Vector3Int cellWorld;
+    public Direction direction;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -26,36 +22,52 @@ public class Player : MonoBehaviour
             pos.y = (transform.position.y);
             pos.x = (transform.position.x);
 
-            if (inputX == new Vector2(0, -1)) // down
+            if (direction == Direction.down) // down
             {
-                pos.y = pos.y - 1;
+                direction = Direction.down;
+                pos.y -= 0.9f;
             }
-            else if (inputX == new Vector2(-1, 0)) // left
+            else if (direction == Direction.left) // left
             {
-                pos.x = pos.x - 1;
+                pos.x = pos.x - 0.9f;
             }
-            else if(inputX == new Vector2(0,1)) // up
+            else if(direction == Direction.up) // up
             {
-                pos.y = pos.y + 1;
+                pos.y = pos.y + 0.9f;
             }
-            else if(inputX == new Vector2(1, 0)) // right
+            else if(direction == Direction.right) // right
             {
-                pos.x = pos.x + 1;
+                pos.x = pos.x + 0.9f;
             }
             Vector3Int posInt = new Vector3Int(Mathf.FloorToInt(pos.x),Mathf.FloorToInt(pos.y), 0);
-            Vector3Int cellWorld = Vector3Int.FloorToInt(map.GetCellCenterWorld(posInt));
+            //Vector3Int posInt1 = new Vector3Int(Mathf.RoundToInt(pos.x),Mathf.RoundToInt(pos.y), 0);
+            //Vector3Int posInt2 = new Vector3Int((int)pos.x + (int)Mathf.Clamp01(pos.x/Mathf.Abs(pos.x)), (int)pos.y + (int)Mathf.Clamp01(pos.y / Mathf.Abs(pos.y)), 0);
+            cellWorld = Vector3Int.FloorToInt(map.GetCellCenterWorld(posInt));
             map.SetTile(cellWorld, null);
-
-            /*Debug.Log("posx ,posy" + pos.x + " " + pos.y);
-            Debug.Log("posxInt ,posyInt" + Mathf.FloorToInt(pos.x) + " " + Mathf.FloorToInt(pos.y));
-            Debug.Log("Cell world" + " " + cellWorld);*/
+            direction = Direction.none;
         }
     }
     void FixedUpdate()
     {
         inputX = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        direction = Direction.none;
+        if(inputX == Vector2.left)
+        {
+            direction = Direction.left;
+        }
+        else if(inputX == Vector2.right)
+        {
+            direction = Direction.right;
+        }
+        else if (inputX == Vector2.up)
+        {
+            direction = Direction.up;
+        }
+        else if (inputX == Vector2.down)
+        {
+            direction = Direction.down;
+        }
         movementSpeed = 4f * inputX;
-
         rb.MovePosition(rb.position + movementSpeed * Time.fixedDeltaTime);
     }
 
@@ -63,18 +75,19 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "TileMap")
         {
+            Debug.Log("colllided with tilemap");
             Vector3 pos = collision.gameObject.transform.position;
-            Debug.Log("pos" + pos);
             DestroyBlock(collision.gameObject.GetComponent<Tilemap>());
         }
     }
-
-    enum Direction
+    
+    public enum Direction
     {
         left,
         right,
         up,
-        down
+        down,
+        none
     }
 
 }

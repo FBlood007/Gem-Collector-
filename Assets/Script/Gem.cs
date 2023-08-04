@@ -6,6 +6,7 @@ using UnityEngine;
 public class Gem : MonoBehaviour,ICollectables
 {
     public static event Action onGemCollected;
+
     public void Collect()
     {
         Debug.Log("you collected a gem");
