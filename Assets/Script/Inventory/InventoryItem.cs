@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [Serializable]
-public class InventoryItem : MonoBehaviour
+public class InventoryItem
 {
     public ItemData itemData;
     public int stackSize;
@@ -21,4 +21,8 @@ public class InventoryItem : MonoBehaviour
         stackSize++;
     }
 
+    public void RemoveFromStack()
+    {
+        stackSize--;
+    }
 }

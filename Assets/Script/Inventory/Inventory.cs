@@ -13,12 +13,12 @@ public class Inventory : MonoBehaviour
 
     private void OnEnable()
     {
-        //Gem.OnGemCollected += Add;
+        Gem.onGemCollected += Add;
     }
 
     private void OnDisable()
     {
-    
+        Gem.onGemCollected -= Add;
     }
 
     public void Add(ItemData itemData)
@@ -34,18 +34,18 @@ public class Inventory : MonoBehaviour
             InventoryItem newItem = new InventoryItem(itemData);    
             inventory.Add(newItem);
             itemDictionary.Add(itemData,newItem);
-            Debug.Log($"Added {item.itemData.displayName} to the iventory for fist time");
+            Debug.Log($"Added {itemData.displayName} to the iventory for fist time");
             onInventoryChange?.Invoke(inventory);
 
         }
     }
-
+    
 
     public void Remove(ItemData itemData)
     {
         if(itemDictionary.TryGetValue(itemData, out InventoryItem item))
         {
-            //item.RemoveFromStack();
+            item.RemoveFromStack();
             if(item.stackSize == 0)
             {
                 inventory.Remove(item);

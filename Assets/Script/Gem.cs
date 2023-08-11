@@ -5,12 +5,13 @@ using UnityEngine;
 
 public class Gem : MonoBehaviour,ICollectables
 {
-    public static event Action onGemCollected;
-
+    public static event HandleGemCollected onGemCollected;
+    public delegate void HandleGemCollected(ItemData itemData);
+    public ItemData gemData;
     public void Collect()
     {
         Debug.Log("you collected a gem");
         Destroy(gameObject);
-        onGemCollected?.Invoke();
+        onGemCollected?.Invoke(gemData);
     }
 }
