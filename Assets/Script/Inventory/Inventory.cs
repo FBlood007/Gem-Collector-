@@ -6,10 +6,14 @@ using JetBrains.Annotations;
 
 public class Inventory : MonoBehaviour
 {
+
+  
     public static event Action<List<InventoryItem>> onInventoryChange;
 
     public List<InventoryItem> inventory = new List<InventoryItem>();
     private Dictionary<ItemData,InventoryItem> itemDictionary = new Dictionary<ItemData,InventoryItem>();
+
+    
 
     private void OnEnable()
     {
@@ -55,4 +59,6 @@ public class Inventory : MonoBehaviour
         }
 
     }
+
+   
 }

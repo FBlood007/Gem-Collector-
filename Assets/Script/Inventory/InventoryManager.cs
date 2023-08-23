@@ -5,9 +5,15 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
+    Animator animator;
     public GameObject slotPrefab;
     public List<InventorySlot> inventorySlot = new List<InventorySlot>(12);
 
+    public void Start()
+    {
+
+        animator = GetComponent<Animator>();
+    }
     private void OnEnable()
     {
         Inventory.onInventoryChange += DrawInventory;
@@ -50,7 +56,12 @@ public class InventoryManager : MonoBehaviour
         newSlotComponent.ClearSlot();
 
         inventorySlot.Add(newSlotComponent);    
-
     }
+
+    public void OnOpen()
+    {
+        animator.SetTrigger("OnOpen");
+    }
+
 }
  
