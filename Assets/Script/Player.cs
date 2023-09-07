@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -9,6 +10,12 @@ public class Player : MonoBehaviour
     Vector2 inputX;
     public Vector3Int cellWorld;
     public Direction direction;
+    public bool leftMovement;
+    public bool rightMovement;
+    public bool upMovement;
+    public bool downMovement;
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -47,28 +54,43 @@ public class Player : MonoBehaviour
             direction = Direction.none;
         }
     }
-    void FixedUpdate()
+
+    private void Update()
     {
-        inputX = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         direction = Direction.none;
-        if(inputX == Vector2.left)
+        //inputX = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        if (leftMovement)
         {
+            inputX = new Vector2(-1, 0);
             direction = Direction.left;
         }
-        else if(inputX == Vector2.right)
+        if (rightMovement)
         {
+            inputX = new Vector2(1, 0);
             direction = Direction.right;
         }
-        else if (inputX == Vector2.up)
+        if (upMovement)
         {
+            inputX = new Vector2(0, 1);
             direction = Direction.up;
         }
-        else if (inputX == Vector2.down)
+        if (downMovement)
         {
+            inputX = new Vector2(0, -1);
             direction = Direction.down;
         }
-        movementSpeed = 4f * inputX;
-        rb.MovePosition(rb.position + movementSpeed * Time.fixedDeltaTime);
+        
+    }
+    void FixedUpdate()
+    {
+
+        if (leftMovement || rightMovement || upMovement || downMovement)
+        {
+            movementSpeed = 4f * inputX;
+            rb.MovePosition(rb.position + movementSpeed * Time.fixedDeltaTime);
+
+        }
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -90,4 +112,37 @@ public class Player : MonoBehaviour
         none
     }
 
+    public void PointerDownLeft()
+    {
+        leftMovement = true;
+    }
+    public void PointerUpLeft()
+    {
+        leftMovement = false;
+    }
+    public void PointerDownRight()
+    {
+        rightMovement = true;
+    }
+    public void PointerUpRight()
+    {
+        rightMovement = false;
+    }
+
+    public void PointerDownUp()
+    {
+        upMovement = true;
+    }
+    public void PointerUpUp()
+    {
+        upMovement = false;
+    }
+    public void PointerDownDown()
+    {
+        downMovement = true;
+    }
+    public void PointerUpDown()
+    {
+        downMovement = false;
+    }
 }
