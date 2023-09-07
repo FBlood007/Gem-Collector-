@@ -57,39 +57,76 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        direction = Direction.none;
-        //inputX = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        if (leftMovement)
-        {
-            inputX = new Vector2(-1, 0);
-            direction = Direction.left;
-        }
-        if (rightMovement)
-        {
-            inputX = new Vector2(1, 0);
-            direction = Direction.right;
-        }
-        if (upMovement)
-        {
-            inputX = new Vector2(0, 1);
-            direction = Direction.up;
-        }
-        if (downMovement)
-        {
-            inputX = new Vector2(0, -1);
-            direction = Direction.down;
-        }
         
+        direction = Direction.none;
+
+      /*  if (Application.platform == RuntimePlatform.Android)
+        {*/
+            if (leftMovement)
+            {
+                inputX = new Vector2(-1, 0);
+                direction = Direction.left;
+            }
+            if (rightMovement)
+            {
+                inputX = new Vector2(1, 0);
+                direction = Direction.right;
+            }
+            if (upMovement)
+            {
+                inputX = new Vector2(0, 1);
+                direction = Direction.up;
+            }
+            if (downMovement)
+            {
+                inputX = new Vector2(0, -1);
+                direction = Direction.down;
+            }
+      /*  }
+       
+         if(Application.platform == RuntimePlatform.WindowsEditor)
+        {
+
+            inputX = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+
+            if (inputX == Vector2.left)
+            {
+                direction = Direction.left;
+            }
+            else if (inputX == Vector2.right)
+            {
+                direction = Direction.right;
+            }
+            else if (inputX == Vector2.up)
+            {
+                direction = Direction.up;
+            }
+            else if (inputX == Vector2.down)
+            {
+                direction = Direction.down;
+            }
+        }*/
+         
+
+
     }
     void FixedUpdate()
     {
-
-        if (leftMovement || rightMovement || upMovement || downMovement)
+        /*if (Application.platform == RuntimePlatform.Android)
+        {*/
+            if (leftMovement || rightMovement || upMovement || downMovement)
+            {
+                movementSpeed = 4f * inputX;
+                rb.MovePosition(rb.position + movementSpeed * Time.fixedDeltaTime);
+            }
+       /* }
+        else
         {
             movementSpeed = 4f * inputX;
             rb.MovePosition(rb.position + movementSpeed * Time.fixedDeltaTime);
+        }*/
+        
 
-        }
 
     }
 
@@ -97,7 +134,6 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "TileMap")
         {
-            Debug.Log("colllided with tilemap");
             Vector3 pos = collision.gameObject.transform.position;
             DestroyBlock(collision.gameObject.GetComponent<Tilemap>());
         }
