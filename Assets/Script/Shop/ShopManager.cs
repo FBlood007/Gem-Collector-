@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ShopManager : MonoBehaviour
 {
@@ -11,8 +12,8 @@ public class ShopManager : MonoBehaviour
     public Inventory inventoryScript;
     [SerializeField] private GameObject questItemPrefab;
     [SerializeField] private GameObject sellItemPrefab;
-    public Dictionary<ShopItemCategory, List<ShopItem>> shopItems = new Dictionary<ShopItemCategory, List<ShopItem>>();
-    public Dictionary<ShopItemCategory, List<ItemData>> shopSellItems = new Dictionary<ShopItemCategory, List<ItemData>>();
+    public Dictionary<ShopItemCategory, List<QuestItem>> shopQuestItems = new Dictionary<ShopItemCategory, List<QuestItem>>();
+    public Dictionary<ShopItemCategory, List<ItemData>> shopBuyItems = new Dictionary<ShopItemCategory, List<ItemData>>();
     [SerializeField] public TabGroup shopTabs;
     //public ShopItemCategory ObjectType;
     private bool opened;
@@ -26,7 +27,7 @@ public class ShopManager : MonoBehaviour
     public void Start()
     {
         //animator = GetComponent<Animator>();
-        inventoryScript = GetComponent<Inventory>();
+        //inventoryScript = GetComponent<Inventory>();
         gameObject.SetActive(false);
         Load();
         Initialize();
@@ -34,46 +35,60 @@ public class ShopManager : MonoBehaviour
 
     private void Load()
     {
-        ShopItem[] items = Resources.LoadAll<ShopItem>("Shop");
-        shopItems.Add(ShopItemCategory.Quests, new List<ShopItem>());
-        shopItems.Add(ShopItemCategory.Buy, new List<ShopItem>());
-        foreach (var item in items)
+        QuestItem[] questitems = Resources.LoadAll<QuestItem>("Quest");
+        ItemData[] buyitems = Resources.LoadAll<ItemData>("Sell");
+        shopQuestItems.Add(ShopItemCategory.Quests, new List<QuestItem>());
+        shopBuyItems.Add(ShopItemCategory.Buy, new List<ItemData>());
+        foreach (var qitem in questitems)
         {
-            shopItems[item.Category].Add(item);
+            shopQuestItems[qitem.Category].Add(qitem);
         }
-        /*shopSellItems.Add(ShopItemCategory.Sell, new List<ItemData>());
+        foreach (var bitem in buyitems)
+        {
+            shopBuyItems[ShopItemCategory.Buy].Add(bitem);
+        }
+        shopBuyItems.Add(ShopItemCategory.Sell, new List<ItemData>());
         if (inventoryScript.itemDictionary != null)
         {
-            inventoryItems = inventoryScript.itemDictionary.Keys;
-            foreach (var inventoryitem in inventoryItems)
+            inventoryItems ??= inventoryScript.itemDictionary.Keys;
+            if (inventoryScript != null)
             {
-                shopSellItems[ShopItemCategory.Sell].Add(inventoryitem);
+                foreach (var inventoryitem in inventoryItems)
+                {
+                    shopBuyItems[ShopItemCategory.Sell].Add(inventoryitem);
+                }
             }
-
-        }*/
+        }
     }
 
     private void Initialize()
     {
         int k = 0;
-        for (int i = 0; i < shopItems.Keys.Count; i++)
+        for (int i = 0; i < shopQuestItems.Keys.Count; i++)
         {
-            foreach (var item in shopItems[(ShopItemCategory)i])
+            int index = 0;
+            foreach (var item in shopQuestItems[(ShopItemCategory)i])
             {
                 GameObject itemObject = Instantiate(questItemPrefab, shopTabs.objectsToSwap[i].transform);
-                itemObject.GetComponent<ShopItemHolder>().Initialize(item);
+                itemObject.GetComponent<QuestItemHolder>().Initialize(item,index);
+                index++;
             }
             k++;
         }
 
-        /*for (int j = k; j < shopSellItems.Keys.Count; j++)
+        for (int j = 1; j < shopBuyItems.Keys.Count; j++)
         {
-            foreach (var sellItem in shopSellItems[(ShopItemCategory)j])
+            int index = 0;
+            foreach (var sellItem in shopBuyItems[(ShopItemCategory)j])
             {
-                GameObject itemObject = Instantiate(sellItemPrefab, shopTabs.objectsToSwap[j].transform);
-                itemObject.GetComponent<ShopItemHolder>().InitializeSellItem(sellItem);
+                GameObject itemObject = Instantiate(sellItemPrefab, shopTabs.objectsToSwap[k].transform.GetChild(0).transform);
+                itemObject.GetComponent<BuyItemHolder>().Initialize(sellItem, index);
+                if (index == 0)
+                    shopTabs.objectsToSwap[k].transform.GetChild(1).transform.GetComponent<BuyItemDetailPanel>().updateItemDetail(sellItem);
+                index++;
             }
-        }*/
+            k++;
+        }
     }
 
 
@@ -143,6 +158,6 @@ public class ShopManager : MonoBehaviour
     public void OnOpen()
     {
         gameObject.SetActive(true);
-       // animator.SetTrigger("OnOpen");
+        // animator.SetTrigger("OnOpen");
     }
 }

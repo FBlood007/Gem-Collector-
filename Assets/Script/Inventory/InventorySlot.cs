@@ -32,7 +32,6 @@ public class InventorySlot : MonoBehaviour
 
         Icon.sprite = item.itemData.Icon;
         labelText.text = item.itemData.name;
-        stackSizeText.text = item.stackSize.ToString();
+        stackSizeText.text = item.stackSize.ToString(); 
     }
-
 }

@@ -9,13 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20116100fd54de24787e1ddd06e0bb1c, type: 3}
-  m_Name: quest-1
+  m_Script: {fileID: 11500000, guid: f3d56b91c4b02b74ba32aef24201e355, type: 3}
+  m_Name: Stamina Potion
   m_EditorClassIdentifier: 
-  Name: Quest-1
-  Description: Find 3 red gems
-  Icon: {fileID: 21300000, guid: 4253be753405bce42b308f60ac34fead, type: 3}
+  Name: Stamina Potion
+  Description: Increase player speed for 10seconds
+  Icon: {fileID: 21300000, guid: 7267ca3baae6b154fa428afb98b4b733, type: 3}
   Price: 100
-  Category: 1
-  level: 0
+  Level: 0
+  Count: 0
   Prefab: {fileID: 0}
+  Type: 0

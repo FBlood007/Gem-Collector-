@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class TabGroup : MonoBehaviour
 {
@@ -13,7 +16,7 @@ public class TabGroup : MonoBehaviour
 
     private void Start()
     {
-        OnTabSelected(tabButtons[0]);
+        OnTabSelected(tabButtons[2]);
     }
 
     public void Subscribe(TabButton button)
@@ -36,6 +39,8 @@ public class TabGroup : MonoBehaviour
     public void OnTabSelected(TabButton button)
     {
         selectedTab = button;
+        Button btn = button.GetComponent<Button>();
+        EventSystem.current.SetSelectedGameObject(btn.gameObject, new BaseEventData(EventSystem.current));
         ResetTabs();
         //if background change
 

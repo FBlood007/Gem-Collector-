@@ -9,6 +9,14 @@ public class ItemData : ScriptableObject
     public string Description = "Description";
     public Sprite Icon;
     public int Price;
-    public int level;
+    public int Level;
+    public int Count;
     public GameObject Prefab;
+    public CollectableType Type;
+}
+public enum CollectableType
+{
+    Sellable,
+    consumable,
+    Key
 }
