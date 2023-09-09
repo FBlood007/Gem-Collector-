@@ -14,11 +14,14 @@ public class Player : MonoBehaviour
     public bool rightMovement;
     public bool upMovement;
     public bool downMovement;
+    public Animator animator;
+
 
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     public void DestroyBlock(Tilemap map)
@@ -66,19 +69,23 @@ public class Player : MonoBehaviour
             {
                 inputX = new Vector2(-1, 0);
                 direction = Direction.left;
+                animator.SetTrigger("DigLeft");
             }
             if (rightMovement)
             {
+                animator.SetTrigger("DigRight");
                 inputX = new Vector2(1, 0);
                 direction = Direction.right;
             }
             if (upMovement)
             {
+                animator.SetTrigger("DigUp");
                 inputX = new Vector2(0, 1);
                 direction = Direction.up;
             }
             if (downMovement)
             {
+                animator.SetTrigger("DigDown");
                 inputX = new Vector2(0, -1);
                 direction = Direction.down;
             }
