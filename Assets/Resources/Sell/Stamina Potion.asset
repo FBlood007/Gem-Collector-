@@ -17,6 +17,6 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: 7267ca3baae6b154fa428afb98b4b733, type: 3}
   Price: 100
   Level: 0
-  Count: 0
+  Count: 5
   Prefab: {fileID: 0}
   Type: 0

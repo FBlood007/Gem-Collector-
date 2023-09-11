@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
 {
@@ -15,8 +16,9 @@ public class ShopManager : MonoBehaviour
     public Dictionary<ShopItemCategory, List<QuestItem>> shopQuestItems = new Dictionary<ShopItemCategory, List<QuestItem>>();
     public Dictionary<ShopItemCategory, List<ItemData>> shopBuyItems = new Dictionary<ShopItemCategory, List<ItemData>>();
     [SerializeField] public TabGroup shopTabs;
+    [SerializeField]  private BuyItemDetailPanel buyItemDetailPanel;
     //public ShopItemCategory ObjectType;
-    private bool opened;
+    private bool opened = false;
     private Dictionary<ItemData, InventoryItem>.KeyCollection inventoryItems;
 
     private void Awake()
@@ -27,7 +29,6 @@ public class ShopManager : MonoBehaviour
     public void Start()
     {
         //animator = GetComponent<Animator>();
-        //inventoryScript = GetComponent<Inventory>();
         gameObject.SetActive(false);
         Load();
         Initialize();
@@ -83,14 +84,19 @@ public class ShopManager : MonoBehaviour
             {
                 GameObject itemObject = Instantiate(sellItemPrefab, shopTabs.objectsToSwap[k].transform.GetChild(0).transform);
                 itemObject.GetComponent<BuyItemHolder>().Initialize(sellItem, index);
+                itemObject.GetComponent<Button>().onClick.AddListener(delegate { UpdateBuyItemDetail(sellItem); });
                 if (index == 0)
-                    shopTabs.objectsToSwap[k].transform.GetChild(1).transform.GetComponent<BuyItemDetailPanel>().updateItemDetail(sellItem);
+                    buyItemDetailPanel.updateItemDetail(sellItem);
                 index++;
             }
             k++;
         }
     }
 
+    public void UpdateBuyItemDetail(ItemData item)
+    {
+        buyItemDetailPanel.updateItemDetail(item);
+    }
 
 
     //for item/quest to be unlocked on different levels
@@ -155,9 +161,18 @@ public class ShopManager : MonoBehaviour
         inventorySlot.Add(newSlotComponent);
     }*/
 
-    public void OnOpen()
+    public void ToggleShopButton()
     {
-        gameObject.SetActive(true);
+        if (opened)
+        {
+            gameObject.SetActive(false);
+            opened = false;
+        }
+        else
+        {
+            gameObject.SetActive(true);
+            opened = true;
+        } 
         // animator.SetTrigger("OnOpen");
     }
 }

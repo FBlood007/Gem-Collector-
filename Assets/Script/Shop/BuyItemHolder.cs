@@ -10,6 +10,7 @@ public class BuyItemHolder : MonoBehaviour
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private Image iconImage;
     [SerializeField] private TextMeshProUGUI priceText;
+    [SerializeField] private BuyItemDetailPanel detailPanel;
 
     public void Initialize(ItemData item, int count)
     {
