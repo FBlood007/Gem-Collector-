@@ -37,7 +37,7 @@ public class ShopManager : MonoBehaviour
     private void Load()
     {
         QuestItem[] questitems = Resources.LoadAll<QuestItem>("Quest");
-        ItemData[] buyitems = Resources.LoadAll<ItemData>("Sell");
+        ItemData[] buyitems = Resources.LoadAll<ItemData>("Buy");
         shopQuestItems.Add(ShopItemCategory.Quests, new List<QuestItem>());
         shopBuyItems.Add(ShopItemCategory.Buy, new List<ItemData>());
         foreach (var qitem in questitems)

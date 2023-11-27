@@ -18,5 +18,5 @@ MonoBehaviour:
   RewardAmount: 200
   ProgressCount: 2
   Category: 0
-  Status: 1
+  Status: 0
   Level: 0

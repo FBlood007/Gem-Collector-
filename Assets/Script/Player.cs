@@ -3,7 +3,7 @@ using UnityEngine.Tilemaps;
 
 public class Player : MonoBehaviour
 {
-
+    // health,stamina,damage,
     public Vector2 movementSpeed;
     public Rigidbody2D rb;
     Vector2 inputX;
