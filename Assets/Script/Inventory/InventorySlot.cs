@@ -16,7 +16,6 @@ public class InventorySlot : MonoBehaviour
         Icon.enabled = false;
         labelText.enabled = false;
         stackSizeText.enabled = false;
-
     }
 
     public void DrawSlot(InventoryItem item)
@@ -30,11 +29,8 @@ public class InventorySlot : MonoBehaviour
         labelText.enabled = true;
         stackSizeText.enabled = true;
 
-        Icon.sprite = item.itemData.icon;
+        Icon.sprite = item.itemData.Icon;
         labelText.text = item.itemData.name;
-        stackSizeText.text = item.stackSize.ToString();
-
-
+        stackSizeText.text = item.stackSize.ToString(); 
     }
-
 }
