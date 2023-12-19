@@ -11,6 +11,7 @@ public class Collector : MonoBehaviour
             if (collectable != null)
             {
                 collectable.Collect();
+                DataManager.instance.SaveGameData();
             }
         }
     }

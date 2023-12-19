@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -9,9 +10,18 @@ public class Player : MonoBehaviour
     Vector2 inputX;
     public Vector3Int cellWorld;
     public Direction direction;
+    public bool leftMovement;
+    public bool rightMovement;
+    public bool upMovement;
+    public bool downMovement;
+    public Animator animator;
+
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     public void DestroyBlock(Tilemap map)
@@ -47,35 +57,90 @@ public class Player : MonoBehaviour
             direction = Direction.none;
         }
     }
+
+    private void Update()
+    {
+        
+        direction = Direction.none;
+
+      /*  if (Application.platform == RuntimePlatform.Android)
+        {*/
+            if (leftMovement)
+            {
+                inputX = new Vector2(-1, 0);
+                direction = Direction.left;
+                animator.SetTrigger("DigLeft");
+            }
+            if (rightMovement)
+            {
+                animator.SetTrigger("DigRight");
+                inputX = new Vector2(1, 0);
+                direction = Direction.right;
+            }
+            if (upMovement)
+            {
+                animator.SetTrigger("DigUp");
+                inputX = new Vector2(0, 1);
+                direction = Direction.up;
+            }
+            if (downMovement)
+            {
+                animator.SetTrigger("DigDown");
+                inputX = new Vector2(0, -1);
+                direction = Direction.down;
+            }
+      /*  }
+       
+         if(Application.platform == RuntimePlatform.WindowsEditor)
+        {
+
+            inputX = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+
+            if (inputX == Vector2.left)
+            {
+                direction = Direction.left;
+            }
+            else if (inputX == Vector2.right)
+            {
+                direction = Direction.right;
+            }
+            else if (inputX == Vector2.up)
+            {
+                direction = Direction.up;
+            }
+            else if (inputX == Vector2.down)
+            {
+                direction = Direction.down;
+            }
+        }*/
+         
+
+
+    }
     void FixedUpdate()
     {
-        inputX = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        direction = Direction.none;
-        if(inputX == Vector2.left)
+        /*if (Application.platform == RuntimePlatform.Android)
+        {*/
+            if (leftMovement || rightMovement || upMovement || downMovement)
+            {
+                movementSpeed = 4f * inputX;
+                rb.MovePosition(rb.position + movementSpeed * Time.fixedDeltaTime);
+            }
+       /* }
+        else
         {
-            direction = Direction.left;
-        }
-        else if(inputX == Vector2.right)
-        {
-            direction = Direction.right;
-        }
-        else if (inputX == Vector2.up)
-        {
-            direction = Direction.up;
-        }
-        else if (inputX == Vector2.down)
-        {
-            direction = Direction.down;
-        }
-        movementSpeed = 4f * inputX;
-        rb.MovePosition(rb.position + movementSpeed * Time.fixedDeltaTime);
+            movementSpeed = 4f * inputX;
+            rb.MovePosition(rb.position + movementSpeed * Time.fixedDeltaTime);
+        }*/
+        
+
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "TileMap")
         {
-            Debug.Log("colllided with tilemap");
             Vector3 pos = collision.gameObject.transform.position;
             DestroyBlock(collision.gameObject.GetComponent<Tilemap>());
         }
@@ -90,4 +155,37 @@ public class Player : MonoBehaviour
         none
     }
 
+    public void PointerDownLeft()
+    {
+        leftMovement = true;
+    }
+    public void PointerUpLeft()
+    {
+        leftMovement = false;
+    }
+    public void PointerDownRight()
+    {
+        rightMovement = true;
+    }
+    public void PointerUpRight()
+    {
+        rightMovement = false;
+    }
+
+    public void PointerDownUp()
+    {
+        upMovement = true;
+    }
+    public void PointerUpUp()
+    {
+        upMovement = false;
+    }
+    public void PointerDownDown()
+    {
+        downMovement = true;
+    }
+    public void PointerUpDown()
+    {
+        downMovement = false;
+    }
 }
